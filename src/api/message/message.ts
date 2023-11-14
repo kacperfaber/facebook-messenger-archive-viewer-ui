@@ -12,6 +12,7 @@ export type MessageAttachment = {
 export type MessageType = "share" | "call" | "generic" | "subscribe" | "unsubscribe";
 
 export type Message = {
+    id: number;
     senderName: string;
     sentAt: Date;
     callDuration?: number;
