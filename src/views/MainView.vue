@@ -28,4 +28,9 @@ import MainViewContent from "@/components/mainView/content/MainViewContent.vue";
   height: 100%;
   width: 20vw;
 }
+
+#app_main_view__content {
+  height: 100%;
+  width: 80vw;
+}
 </style>
