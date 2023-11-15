@@ -25,12 +25,13 @@ import MainViewContent from "@/components/mainView/content/MainViewContent.vue";
 }
 
 #app_main_view__side {
-  height: 100%;
+  height: 93vh;
   width: 20vw;
 }
 
 #app_main_view__content {
-  height: 100%;
+  height: 93vh;
   width: 80vw;
+  overflow-y: scroll;
 }
 </style>
