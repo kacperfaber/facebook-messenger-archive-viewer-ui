@@ -21,13 +21,84 @@ export class ProdApi implements IApi {
     }
 }
 
+type DevApiDataT = {
+    threads: (Thread & {messages: Message[]})[];
+}
+
+const DevApiData: DevApiDataT = {
+    threads: [
+        {
+            id: 0,
+            title: "Karolina Karolinka",
+            type: "CONVERSATION",
+            relPath: "/inbox/karolinka_karolinka",
+            path: "/messages/archived_threads/karolinka_karolinka",
+            location: "INBOX",
+            messages: [
+                {
+                    id: 0,
+                    sentAt: new Date(2023, 1, 1, 12, 0, 0),
+                    content: "Hello Karolinka",
+                    senderName: "Kacper Faber",
+                    type: "generic",
+                    attachments: []
+                },
+                {
+                    id: 1,
+                    sentAt: new Date(2023, 1, 1, 12, 1, 0),
+                    content: "Hello Kacper",
+                    senderName: "Karolina Karolinka",
+                    type: "generic",
+                    attachments: []
+                },
+                {
+                    id: 2,
+                    sentAt: new Date(2023, 1, 1, 12, 2, 0),
+                    content: "What's up?",
+                    senderName: "Karolina Karolinka",
+                    type: "generic",
+                    attachments: []
+                },
+                {
+                    id: 3,
+                    sentAt: new Date(2023, 1, 1, 12, 3, 0),
+                    content: "Nothing",
+                    senderName: "Kacper Faber",
+                    type: "generic",
+                    attachments: []
+                }
+            ]
+        },
+
+        {
+            id: 1,
+            title: "Kamil Kamil",
+            type: "CONVERSATION",
+            relPath: "/inbox/kamil_kamil",
+            path: "/messages/inbox/kamil_kamil",
+            location: "INBOX",
+            messages: []
+        },
+
+        {
+            id: 2,
+            title: "Adam Adam",
+            type: "CONVERSATION",
+            relPath: "/archived_threads/adam_adam",
+            path: "/messages/archived_threads/adam_adam",
+            location: "ARCHIVED",
+            messages: []
+        }
+    ],
+}
+
 export class DevApi implements IApi{
     public async getAllMessages(threadId: number): Promise<Message[]> {
-        return [];
+        return DevApiData.threads.find(x => x.id == threadId)?.messages ?? [];
     }
 
     public async getAllThreads(limit: number, page: number): Promise<Thread[]> {
-        return Promise.resolve([]);
+        return Promise.resolve(DevApiData.threads);
     }
 }
 
