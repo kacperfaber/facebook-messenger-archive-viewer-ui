@@ -32,6 +32,6 @@ import MainViewContent from "@/components/mainView/content/MainViewContent.vue";
 #app_main_view__content {
   height: 93vh;
   width: 80vw;
-  overflow-y: scroll;
+  //overflow-y: scroll;
 }
 </style>
