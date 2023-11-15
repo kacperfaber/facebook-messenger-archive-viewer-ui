@@ -8,7 +8,7 @@ let threads = ref<Thread[] | null>(null);
 
 onMounted(() => {
   Api.getAllThreads(1000, 0)
-      .then(result => threads.value = result)
+      .then(result => { threads.value = [...result, ...result, ...result, ...result, ...result] })
       .catch(() => alert("Something wrong..."));
 });
 
@@ -21,7 +21,7 @@ function onThreadClicked(thread: Thread) {
 <template>
   <div id="app_main_view__side">
     <div id="app_main_view__side__thread_list" v-if="threads != null">
-      <div v-for="thread in threads" class="thread-item" @click="onThreadClicked(thread)">
+      <div v-bind:key="thread.id" v-for="thread in threads" class="thread-item" @click="onThreadClicked(thread)">
         <div class="thread-avatar">
           <Avatar :label="thread.title.charAt(0)"/>
         </div>
@@ -49,6 +49,7 @@ function onThreadClicked(thread: Thread) {
 #app_main_view__side__thread_list {
   width: 100%;
   height: 100%;
+  overflow-y: auto;
 }
 
 .thread-item {
