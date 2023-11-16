@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import MessageList from "@/components/message/MessageList.vue";
-import {ref, watch} from "vue";
+import {onMounted, ref, watch} from "vue";
 import {Api} from "@/api/api";
 import type {Message} from "@/api/message/message";
 import type {Thread} from "@/api/thread/thread";
@@ -10,13 +10,13 @@ type MessagePage = {
   messages: Message[]
 };
 
-const props = defineProps({threadId: Number});
+const props = defineProps<{threadId: number}>();
 
 let messagePages = ref<MessagePage[]>([]);
 let thread = ref<Thread | null>(null);
 
 function initializeThread() {
-  Api.getAllThreads(1000, 0).then(threads => threads.find(x => x.id == props.threadId))
+  Api.getAllThreads(1000, 0).then(threads => threads.find(x => x.id == props.threadId)!!)
       .then(t => thread.value = t);
 }
 
@@ -36,6 +36,10 @@ watch(() => props.threadId, () => {
   thread.value = null;
   initializeThread();
   refresh();
+});
+
+onMounted(() => {
+  initializeThread();
 });
 
 refresh();
