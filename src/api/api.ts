@@ -21,23 +21,24 @@ export interface IApi {
 }
 
 export class ProdApi implements IApi {
-    public async getAllMessages(threadId: number): Promise<Message[], PaginationApiModel<MessageApiModel>> {
-        return axios.get(`/conversation/${threadId}/messages/desc`)
-            .then(r => MessageConverter.convertMessages(r.data.items));
+    public async getAllMessages(threadId: number): Promise<Message[]> {
+        return axios.get(`http://localhost:8080/conversation/${threadId}/messages/desc`)
+            .then(r => MessageConverter.convertMessages(r.data.items))
+            .then(messages => messages.sort((a, b) => a.sentAt.valueOf() - b.sentAt.valueOf()));
     }
 
     public async getAllThreads(limit: number = 0, page: number = 0): Promise<Thread[]> {
-        return axios.get(`/conversation/all?limit=${limit}&page=${page}`)
+        return axios.get(`http://localhost:8080/conversation/all?limit=${limit}&page=${page}`)
             .then(r => ThreadConverter.convertThreads(r.data.items));
     }
 
     public async getMessagesPaginated(threadId: number, limit: number, page: number): Promise<Pagination<Message>> {
-        return axios.get(`/conversation/${threadId}/messages/desc?limit=${limit}&page=${page}`)
+        return axios.get(`http://localhost:8080/conversation/${threadId}/messages/desc?limit=${limit}&page=${page}`)
             .then(resp => {
                 const paginationApiModel = resp.data as PaginationApiModel<MessageApiModel>;
 
                 return {
-                    items: MessageConverter.convertMessages(paginationApiModel.items),
+                    items: MessageConverter.convertMessages(paginationApiModel.items).sort((a, b) => a.sentAt.valueOf() - b.sentAt.valueOf()),
                     perPage: paginationApiModel.per_page,
                     page: paginationApiModel.page,
                     total: paginationApiModel.total
@@ -129,13 +130,13 @@ const DevApiData: DevApiDataT = {
                 senderName: senderNames[Math.floor(Math.random() * senderNames.length)],
                 sentAt: new Date(2023, 1, Math.floor(Math.random() * 28), Math.floor(Math.random() * 23), Math.floor(Math.random() * 59)),
                 content: (Math.random() + 1).toString(36).substring(7),
-                callDuration: null
+                callDuration: undefined
             }
 
             result.push(message);
         }
 
-        return result.sort((msgA, msgB) => new Date(msgA.sentAt) - new Date(msgB.sentAt));
+        return result.sort((msgA, msgB) => msgA.sentAt.valueOf() - msgB.sentAt.valueOf());
     }
 }
 
