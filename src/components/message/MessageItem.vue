@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type {Message} from "@/api/message/message";
-
-export type MessageItemType = "stranger" | "me" | "unknown";
+import type {MessageItemType} from "@/components/message/messageItemType";
 
 function getMessageAlign(type: MessageItemType): "start" | "end" {
   if (type == "me" || type == "unknown") return "start";
@@ -13,7 +12,7 @@ const props = defineProps<{type: MessageItemType, message: Message}>();
 </script>
 
 <template>
-<div class="message-item" :style="{alignItems: getMessageAlign(props.type)}">
+<div class="message-item" v-if="props.message" :style="{alignItems: getMessageAlign(props.type)}">
   <p class="message-sender">
     {{ props.message.senderName }}
   </p>

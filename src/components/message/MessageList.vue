@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type {Message} from "@/api/message/message";
-import MessageItem, {MessageItemType} from "@/components/message/MessageItem.vue";
+import MessageItem from "@/components/message/MessageItem.vue";
+import type {MessageItemType} from "@/components/message/messageItemType";
 import type {Thread} from "@/api/thread/thread";
 const props = defineProps<{thread: Thread, messages: Array<Message>}>();
 
