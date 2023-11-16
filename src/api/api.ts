@@ -22,18 +22,18 @@ export interface IApi {
 
 export class ProdApi implements IApi {
     public async getAllMessages(threadId: number): Promise<Message[]> {
-        return axios.get(`http://localhost:8080/conversation/${threadId}/messages/desc`)
+        return axios.get(`/conversation/${threadId}/messages/desc`)
             .then(r => MessageConverter.convertMessages(r.data.items))
             .then(messages => messages.sort((a, b) => a.sentAt.valueOf() - b.sentAt.valueOf()));
     }
 
     public async getAllThreads(limit: number = 0, page: number = 0): Promise<Thread[]> {
-        return axios.get(`http://localhost:8080/conversation/all?limit=${limit}&page=${page}`)
+        return axios.get(`/conversation/all?limit=${limit}&page=${page}`)
             .then(r => ThreadConverter.convertThreads(r.data.items));
     }
 
     public async getMessagesPaginated(threadId: number, limit: number, page: number): Promise<Pagination<Message>> {
-        return axios.get(`http://localhost:8080/conversation/${threadId}/messages/desc?limit=${limit}&page=${page}`)
+        return axios.get(`/conversation/${threadId}/messages/desc?limit=${limit}&page=${page}`)
             .then(resp => {
                 const paginationApiModel = resp.data as PaginationApiModel<MessageApiModel>;
 
