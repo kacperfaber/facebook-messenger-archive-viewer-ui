@@ -8,7 +8,7 @@ let threads = ref<Thread[] | null>(null);
 
 onMounted(() => {
   Api.getAllThreads(1000, 0)
-      .then(result => { threads.value = [...result, ...result, ...result, ...result, ...result] })
+      .then(result => { threads.value = result })
       .catch(() => alert("Something wrong..."));
 });
 
